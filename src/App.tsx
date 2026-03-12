@@ -169,6 +169,12 @@ export default function App() {
 
     const tableRows = pdfData.map(row => columns.map(col => row[col] || ''));
 
+    const rmIndex = columns.findIndex(col => col.trim().toUpperCase() === 'RM');
+    const columnStyles: any = {};
+    if (rmIndex !== -1) {
+      columnStyles[rmIndex] = { cellWidth: 1.2 }; // Increase RM column width (in inches)
+    }
+
     autoTable(doc, {
       head: [columns],
       body: tableRows,
@@ -185,6 +191,7 @@ export default function App() {
         fillColor: [66, 139, 202],
         halign: 'center'
       },
+      columnStyles: columnStyles,
       margin: { top: 0.2, right: 0.2, bottom: 0.2, left: 0.2 }
     });
 
@@ -214,7 +221,7 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-gray-50 p-3 font-sans">
-      <div className="max-w-7xl mx-auto space-y-3">
+      <div className="w-full space-y-3">
         {/* Header */}
         <div className="bg-white p-3 rounded-l shadow-sm border border-gray-100 flex items-center justify-between">
           <div className="flex items-center space-x-4">
@@ -408,11 +415,11 @@ export default function App() {
             </div>
           ) : (
             <div className="overflow-x-auto max-h-[500px] overflow-y-auto relative">
-              <table className="w-full text-sm text-left text-gray-500">
+              <table className="w-full text-sm text-center text-gray-500">
                 <thead className="text-xs text-gray-700 uppercase bg-gray-50 sticky top-0 z-10 shadow-sm">
                   <tr>
                     {columns.map((col, idx) => (
-                      <th key={idx} className="px-6 py-3 whitespace-nowrap">{col}</th>
+                      <th key={idx} className="px-6 py-3 whitespace-nowrap text-center">{col}</th>
                     ))}
                   </tr>
                 </thead>
@@ -420,7 +427,7 @@ export default function App() {
                   {filteredData.slice(0, 100).map((row, idx) => (
                     <tr key={idx} className="bg-white border-b hover:bg-gray-50">
                       {columns.map((col, colIdx) => (
-                        <td key={colIdx} className="px-6 py-4 whitespace-nowrap">{row[col]}</td>
+                        <td key={colIdx} className="px-3 py-1 whitespace-nowrap text-center">{row[col]}</td>
                       ))}
                     </tr>
                   ))}
