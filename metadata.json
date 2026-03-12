@@ -1,0 +1,5 @@
+{
+  "name": "Excel to PDF Report Generator",
+  "description": "Upload an Excel file, filter by branch, and generate a PDF report.",
+  "requestFramePermissions": []
+}
