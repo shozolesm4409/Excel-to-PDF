@@ -167,7 +167,13 @@ export default function App() {
       doc.text(`${filterColumn}: ${branchName}`, pageWidth / 2, 0.5, { align: 'center' });
     }
 
-    const tableRows = pdfData.map(row => columns.map(col => row[col] || ''));
+    const tableRows = pdfData.map((row, rowIndex) => columns.map(col => {
+      const colName = col.trim().toUpperCase();
+      if (colName === 'SL.' || colName === 'SL' || colName === 'SL NO' || colName === 'SERIAL') {
+        return (rowIndex + 1).toString();
+      }
+      return row[col] || '';
+    }));
 
     const rmIndex = columns.findIndex(col => col.trim().toUpperCase() === 'RM');
     const columnStyles: any = {};
