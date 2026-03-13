@@ -202,15 +202,7 @@ export default function ExcelToPdf() {
 
   return (
     <div className="space-y-4">
-      <div className="flex justify-end">
-        <button 
-          onClick={clearAllExcel}
-          className="px-4 py-2 bg-red-50 text-red-600 hover:bg-red-600 hover:text-white rounded-xl font-semibold transition-all duration-200 border border-red-100 flex items-center gap-2 shadow-sm"
-        >
-          <Trash2 size={18} /> Clear All
-        </button>
-      </div>
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         {/* Upload Card */}
         <div className="bg-white p-4 rounded-2xl shadow-sm border border-gray-100 flex flex-col">
           <h2 className="text-lg font-semibold text-gray-900 flex items-center gap-2 mb-4">
@@ -218,7 +210,7 @@ export default function ExcelToPdf() {
             1. Upload Excel
           </h2>
           <div 
-            className="border-2 border-dashed border-gray-200 rounded-2xl p-6 text-center hover:bg-gray-50 transition-colors cursor-pointer flex-grow flex flex-col justify-center mb-4"
+            className="border-2 border-dashed border-gray-200 rounded-2xl p-4 text-center hover:bg-gray-50 transition-colors cursor-pointer flex-grow flex flex-col justify-center mb-4"
             onClick={() => fileInputRef.current?.click()}
           >
             <input type="file" accept=".xlsx, .xls" className="hidden" ref={fileInputRef} onChange={handleFileSelect} />
@@ -231,7 +223,7 @@ export default function ExcelToPdf() {
             disabled={!selectedFile || isUploading}
             className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-xl transition-all disabled:opacity-50 flex items-center justify-center gap-2 shadow-lg shadow-blue-200"
           >
-            {isUploading ? 'Processing...' : 'Process Data'}
+            {isUploading ? 'Uploading...' : 'Upload Data'}
           </button>
         </div>
 
@@ -266,6 +258,12 @@ export default function ExcelToPdf() {
               {branches.map((branch, idx) => <option key={idx} value={branch}>{branch}</option>)}
             </select>
             <div className="text-sm text-gray-500">Showing {filteredData.length} records</div>
+            <button 
+              onClick={clearAllExcel}
+              className="w-full mt-2 px-4 py-2 bg-red-50 text-red-600 hover:bg-red-600 hover:text-white rounded-xl text-xs font-semibold transition-all duration-200 border border-red-100 flex items-center justify-center gap-2"
+            >
+              <Trash2 size={14} /> Clear All Data
+            </button>
           </div>
         </div>
 
@@ -290,14 +288,20 @@ export default function ExcelToPdf() {
             {branches.length > 0 ? (
               <div className="bg-gray-50 rounded-xl p-3 border border-gray-100 flex-grow overflow-y-auto max-h-[150px] space-y-2">
                 {selectedBranch === '' ? branches.map((branch, idx) => (
-                  <div key={idx} className="text-xs text-gray-600 flex items-center justify-between border-b border-gray-200 pb-1">
-                    <span className="truncate max-w-[150px]">{branch}</span>
-                    <span className="bg-blue-100 text-blue-600 px-2 rounded-full">{data.filter(r => r[filterColumn] === branch).length}</span>
+                  <div key={idx} className="text-xs text-gray-600 flex items-center justify-between border-b border-gray-200">
+                    <span className="truncate flex-grow mr-2">
+                      <span className="font-medium">{branch}</span>
+                      <span className="text-gray-400">_{reportName.replace(/ /g, '_')}</span>
+                    </span>
+                    <span className="bg-blue-100 text-blue-600 px-2 rounded-full shrink-0">{data.filter(r => r[filterColumn] === branch).length}</span>
                   </div>
                 )) : (
                   <div className="text-xs text-gray-600 flex items-center justify-between">
-                    <span className="truncate">{selectedBranch}</span>
-                    <span className="bg-blue-100 text-blue-600 px-2 rounded-full">{filteredData.length}</span>
+                    <span className="truncate flex-grow mr-2">
+                      <span className="font-medium">{selectedBranch}</span>
+                      <span className="text-gray-400">_{reportName.replace(/ /g, '_')}</span>
+                    </span>
+                    <span className="bg-blue-100 text-blue-600 px-2 rounded-full shrink-0">{filteredData.length}</span>
                   </div>
                 )}
               </div>
@@ -335,7 +339,7 @@ export default function ExcelToPdf() {
               <tbody className="divide-y divide-gray-100">
                 {filteredData.slice(0, 50).map((row, idx) => (
                   <tr key={idx} className="hover:bg-blue-50/30 transition-colors">
-                    {columns.map((col, colIdx) => <td key={colIdx} className="px-6 py-3 text-gray-600">{row[col]}</td>)}
+                    {columns.map((col, colIdx) => <td key={colIdx} className="px-3 py-1 text-gray-600">{row[col]}</td>)}
                   </tr>
                 ))}
               </tbody>

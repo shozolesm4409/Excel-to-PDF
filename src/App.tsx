@@ -16,7 +16,7 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-gray-50 p-3 font-sans">
-      <div className="w-full max-w-7xl mx-auto space-y-4">
+      <div className="w-full space-y-4">
         {/* Header */}
         <div className="bg-white p-4 rounded-2xl shadow-sm border border-gray-100 flex flex-col md:flex-row items-center justify-between gap-4">
           <div className="flex items-center space-x-4">
