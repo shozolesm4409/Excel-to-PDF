@@ -42,6 +42,19 @@ export default function App() {
     setSelectedBranch('');
   };
 
+  const clearAll = () => {
+    setData([]);
+    setFilteredData([]);
+    setColumns([]);
+    setBranches([]);
+    setSelectedBranch('');
+    setFileName('');
+    setSelectedFile(null);
+    if (fileInputRef.current) {
+      fileInputRef.current.value = '';
+    }
+  };
+
   const processFile = () => {
     if (!selectedFile) return;
     setIsUploading(true);
@@ -239,6 +252,12 @@ export default function App() {
               <p className="text-sm text-gray-500">Upload, filter, and generate student reports</p>
             </div>
           </div>
+          <button 
+            onClick={clearAll}
+            className="px-6 py-2.5 bg-red-50 text-red-600 hover:bg-red-600 hover:text-white rounded-xl font-semibold transition-all duration-200 border border-red-100 flex items-center gap-2 shadow-sm active:scale-95"
+          >
+            Clear
+          </button>
         </div>
 
         {/* Controls */}
