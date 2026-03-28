@@ -3,60 +3,70 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React, { useState } from 'react';
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route, NavLink, Navigate } from 'react-router-dom';
 import { ArrowRightLeft } from 'lucide-react';
 import ExcelToPdf from './components/ExcelToPdf';
+import ExcelToSheetPdf from './components/ExcelToSheetPdf';
 import ImageToPdf from './components/ImageToPdf';
 import PdfToImage from './components/PdfToImage';
 
-type TabType = 'excel-to-pdf' | 'image-to-pdf' | 'pdf-to-image';
-
 export default function App() {
-  const [activeTab, setActiveTab] = useState<TabType>('excel-to-pdf');
-
   return (
-    <div className="min-h-screen bg-gray-50 p-3 font-sans">
-      <div className="w-full space-y-4">
-        {/* Header */}
-        <div className="bg-white p-4 rounded-2xl shadow-sm border border-gray-100 flex flex-col md:flex-row items-center justify-between gap-4">
-          <div className="flex items-center space-x-4">
-            <div className="p-3 bg-blue-50 text-blue-600 rounded-2xl">
-              <ArrowRightLeft size={32} />
+    <Router>
+      <div className="min-h-screen bg-gray-50 p-3 font-sans">
+        <div className="w-full space-y-4">
+          {/* Header */}
+          <div className="bg-white p-4 rounded-2xl shadow-sm border border-gray-100 flex flex-col md:flex-row items-center justify-between gap-4">
+            <div className="flex items-center space-x-4">
+              <div className="p-3 bg-blue-50 text-blue-600 rounded-2xl">
+                <ArrowRightLeft size={32} />
+              </div>
+              <div>
+                <h1 className="text-2xl font-bold text-gray-900">Document Converter</h1>
+                <p className="text-sm text-gray-500">Professional File Conversion Suite</p>
+              </div>
             </div>
-            <div>
-              <h1 className="text-2xl font-bold text-gray-900">Document Converter</h1>
-              <p className="text-sm text-gray-500">Professional File Conversion Suite</p>
+            <div className="flex flex-wrap items-center gap-2 bg-gray-100 p-1 rounded-2xl">
+              <NavLink 
+                to="/excel-to-pdf"
+                className={({ isActive }) => `px-4 py-2 rounded-xl text-sm font-medium transition-all ${isActive ? 'bg-white text-blue-600 shadow-sm' : 'text-gray-500 hover:text-gray-700'}`}
+              >
+                Excel to PDF
+              </NavLink>
+              <NavLink 
+                to="/excel-to-sheetpdf"
+                className={({ isActive }) => `px-4 py-2 rounded-xl text-sm font-medium transition-all ${isActive ? 'bg-white text-blue-600 shadow-sm' : 'text-gray-500 hover:text-gray-700'}`}
+              >
+                Excel to SheetPDF
+              </NavLink>
+              <NavLink 
+                to="/image-to-pdf"
+                className={({ isActive }) => `px-4 py-2 rounded-xl text-sm font-medium transition-all ${isActive ? 'bg-white text-blue-600 shadow-sm' : 'text-gray-500 hover:text-gray-700'}`}
+              >
+                Image to PDF
+              </NavLink>
+              <NavLink 
+                to="/pdf-to-image"
+                className={({ isActive }) => `px-4 py-2 rounded-xl text-sm font-medium transition-all ${isActive ? 'bg-white text-blue-600 shadow-sm' : 'text-gray-500 hover:text-gray-700'}`}
+              >
+                PDF to Image
+              </NavLink>
             </div>
           </div>
-          <div className="flex items-center gap-2 bg-gray-100 p-1 rounded-2xl">
-            <button 
-              onClick={() => setActiveTab('excel-to-pdf')}
-              className={`px-4 py-2 rounded-xl text-sm font-medium transition-all ${activeTab === 'excel-to-pdf' ? 'bg-white text-blue-600 shadow-sm' : 'text-gray-500 hover:text-gray-700'}`}
-            >
-              Excel to PDF
-            </button>
-            <button 
-              onClick={() => setActiveTab('image-to-pdf')}
-              className={`px-4 py-2 rounded-xl text-sm font-medium transition-all ${activeTab === 'image-to-pdf' ? 'bg-white text-blue-600 shadow-sm' : 'text-gray-500 hover:text-gray-700'}`}
-            >
-              Image to PDF
-            </button>
-            <button 
-              onClick={() => setActiveTab('pdf-to-image')}
-              className={`px-4 py-2 rounded-xl text-sm font-medium transition-all ${activeTab === 'pdf-to-image' ? 'bg-white text-blue-600 shadow-sm' : 'text-gray-500 hover:text-gray-700'}`}
-            >
-              PDF to Image
-            </button>
-          </div>
-        </div>
 
-        {/* Tab Content */}
-        <div className="transition-all duration-300">
-          {activeTab === 'excel-to-pdf' && <ExcelToPdf />}
-          {activeTab === 'image-to-pdf' && <ImageToPdf />}
-          {activeTab === 'pdf-to-image' && <PdfToImage />}
+          {/* Tab Content */}
+          <div className="transition-all duration-300">
+            <Routes>
+              <Route path="/" element={<Navigate to="/excel-to-pdf" replace />} />
+              <Route path="/excel-to-pdf" element={<ExcelToPdf />} />
+              <Route path="/excel-to-sheetpdf" element={<ExcelToSheetPdf />} />
+              <Route path="/image-to-pdf" element={<ImageToPdf />} />
+              <Route path="/pdf-to-image" element={<PdfToImage />} />
+            </Routes>
+          </div>
         </div>
       </div>
-    </div>
+    </Router>
   );
 }
